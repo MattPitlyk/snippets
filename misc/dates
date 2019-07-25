@@ -1,0 +1,10 @@
+def get_overlap_days(df, start_date_1, end_date_1, start_date_2, end_date_2) -> int:
+    """Compute the number of days of overlaps between two time periods.
+
+    Based on this SO answer, but vectorized to work on pd.Series:    
+    https://stackoverflow.com/a/9044111
+    """
+    latest_start = df[[start_date_1, start_date_2]].max(axis=1)
+    earliest_end = df[[end_date_1, end_date_2]].min(axis=1)
+    delta = (earliest_end - latest_start).dt.days + 1
+    return np.maximum(0, delta)
